@@ -1,0 +1,111 @@
+使用工具：
+元素定位工具inspect
+
+backend 访问性技术分为uia win32
+
+print_control_identifiers()打印信息，可以获取到当前层级信息，若新开弹窗或窗口，需child_window指定到窗口再print获取信息
+每一层信息需要child_window()
+新开窗口后窗口vlc名称变化，需要重新指向app
+
+
+常用方法
+# 通过层级查找控件相关方法
+window(**kwargs) # 用于窗口的查找
+child_window(**kwargs) # 可以无视层级的找后代中某个符合条件的元素===>【最常用】
+parent() # 返回此元素的父元素,没有参数
+children(**kwargs) # 返回符合条件的子元素列表,支持索引，是BaseWrapper对象（或子类）
+iter_children(**kwargs) # 返回子元素的迭代器，是BaseWrapper对象（或子类）
+descendants(**kwargs) # 返回符合条件的所有后代元素列表,是BaseWrapper对象（或子类）
+iter_children(**kwargs) # 符合条件后代元素迭代器，是BaseWrapper对象（或子类）---> 存疑，是iter_descendants？
+
+kwargs
+# 常用的
+class_name=None, # 类名
+class_name_re=None, # 正则匹配类名
+title=None, # 控件的标题文字，对应inspect中Name字段
+title_re=None, # 正则匹配文字
+control_type=None, # 控件类型，inspect界面LocalizedControlType字段的英文名
+best_match=None, # 模糊匹配类似的title
+auto_id=None, # inspect界面AutomationId字段，但是很多控件没有这个属性
+
+# 不常用
+parent=None,
+process=None,# 这个基本不用，每次启动进程都会变化
+top_level_only=True,
+visible_only=True,
+enabled_only=False,
+handle=None,
+ctrl_index=None,
+found_index=None,
+predicate_func=None,
+active_only=False,
+control_id=None,
+framework_id=None,
+backend=None,
+
+
+控件方法属性：
+# 以下几个只支持窗口模式的控件
+dlg.close() # 关闭界面
+dlg.minimize() # 最小化界面
+dlg.maximize() # 最大化界面
+dlg.restore() # 将窗口恢复为正常大小，比如最小化的让他正常显示在桌面
+dlg.get_show_state() # 正常0，最大化1，最小化2
+dlg.menu_select() # 菜单栏，eg：app.window.menu_select(Edit -> Replace)
+dlg.exists(timeout=None, retry_interval=None) # 判断是否存在
+        #timeout：等待时间，一般默认5s
+        #retry_interval：timeout内重试时间
+dlg.wait(wait_for, timeout=None, retry_interval=None) # 等待窗口处于特定状态
+dlg.wait_not(wait_for_not, timeout=None, retry_interval=None) # 等待窗口不处于特定状态，即等待消失
+        # wait_for/wait_for_not:
+            # * 'exists' means that the window is a valid handle
+            # * 'visible' means that the window is not hidden
+            # * 'enabled' means that the window is not disabled
+            # * 'ready' means that the window is visible and enabled
+            # * 'active' means that the window is active
+        # timeout:等待多久
+        # retry_interval:timeout内重试时间
+        # eg: dlg.wait('ready')
+
+# 鼠标键盘操作，只列举了常用形式，他们有很多默认参数但不常用，可以在源码中查看
+ctrl.click_input() # 最常用的点击方法，一切点击操作的基本方法（底层调用只是参数不同），左键单击，使用时一般都使用默认不需要带参数
+ctrl.right_click_input() # 鼠标右键单击
+ctrl.type_keys(keys, pause = None, with_spaces = False,) # 键盘输入,底层还是调用keyboard.send_keys
+        # keys：要输入的文字内容
+        # pause：每输入一个字符后等待时间，默认0.01就行
+        # with_spaces：是否保留keys中的所有空格，默认去除0
+ctrl.double_click_input(button ="left", coords = (None, None)) # 左键双击
+ctrl.press_mouse_input(coords = (None, None)) # 指定坐标按下左键，不传坐标默认左上角
+ctrl.release_mouse_input(coords = (None, None)) # 指定坐标释放左键，不传坐标默认左上角
+ctrl.move_mouse_input(coords=(0, 0)) # 将鼠标移动到指定坐标，不传坐标默认左上角
+ctrl.drag_mouse_input(dst=(0, 0)) # 将ctrl拖动到dst,是press-move-release操作集合
+
+# 控件的常用属性
+ctrl.children_texts() # 所有子控件的文字列表，对应inspect中Name字段
+ctrl.window_text() # 控件的标题文字，对应inspect中Name字段
+# ctrl.element_info.name
+ctrl.class_name() # 控件的类名，对应inspect中ClassName字段，有些控件没有类名
+# ctrl.element_info.class_name
+ctrl.element_info.control_type # 控件类型，inspect界面LocalizedControlType字段的英文名
+ctrl.is_child(parent) # ctrl是否是parent的子控件
+ctrl.legacy_properties().get('Value') # 可以获取inspect界面LegacyIAccessible开头的一系列字段，在源码uiawraper.py中找到了这个方法，非常有用
+
+# 控件常用操作
+ctrl.draw_outline(colour='green') # 空间外围画框，便于查看，支持'red', 'green', 'blue'
+ctrl.print_control_identifiers(depth=None, filename=None) # 以树形结构打印其包含的元素，详见打印元素
+        # depth:打印的深度，缺省时打印最大深度。
+        # filename:将返回的标识存成文件（生成的文件与当前运行的脚本在同一个路径下）
+ctrl.scroll(direction, amount, count=1,) # 滚动
+        # direction ："up", "down", "left", "right"
+        # amount："line" or "page"
+        # count：int 滚动次数
+ctrl.capture_as_image() # 返回控件的 PIL image对象，可继续使用其方法如下：
+        # eg: ctrl.capture_as_image().save(img_path)
+ret = ctrl.rectangle() # 控件上下左右坐标，(L430, T177, R1490, B941)，可输出上下左右
+        # eg: ret.top=177
+            # ret.bottom=941
+            # ret.left=430
+            # ret.right=1490
+————————————————
+版权声明：本文为CSDN博主「你们的好朋友大强」的原创文章，遵循CC 4.0 BY-SA版权协议，转载请附上原文出处链接及本声明。
+原文链接：https://blog.csdn.net/weixin_42753043/article/details/123962834

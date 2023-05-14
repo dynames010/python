@@ -1,0 +1,20 @@
+import openpyxl
+新建xlsx表格
+wb = openpyxl.Workbook()	#新建一个表格，默认生成一个sheet
+ws = wb.create_sheet('video_info'，0)	#生成一个sheet并放在第一位
+ws = wb.active	#指向
+ws.title = 'try' 	#更改用户信息表名称
+显示所有工作簿名称
+print(wb.sheetnames)
+ws['A1']= '6'	#取A1单元格的数据
+ws.cell(row=4, column=2, value=10)	指定坐标赋值
+ws.append(['1','2','3'])	可一行同时写入多个数据
+取值
+ws['A1'].value
+
+编辑完后保存结果
+wb.save('test.xlsx')
+
+获取sheet最大行、最大列
+ws.max_row
+ws.max_column

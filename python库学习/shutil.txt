@@ -1,0 +1,5 @@
+删除目录下文件
+shutil.rmtree
+
+移动文件
+shutil.move(file，path）

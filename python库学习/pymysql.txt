@@ -1,0 +1,25 @@
+import pymysql
+import datetime
+# insert into L1 values("6","blue","12323","男","23233qq","1000.0","2020-11-12 11:11:11");
+conn = pymysql.connect(host='127.0.0.1', port=3306, user='root', passwd='', charset='utf8', db='exercise1')
+cursor = conn.cursor()
+
+cursor.execute("update L1 set amount=amount+1000")
+conn.commit()
+
+cursor.execute("insert into L1(id,name,password,gender,email,amount,ctime) values('14','xx','aassdd','女','233@qq','2000',%s)",[datetime.datetime.now()])
+conn.commit()
+
+cursor.execute("select amount from L1 where amount>1500")
+
+cursor.execute("select * from L1")
+data = cursor.fetchall()
+print(data)
+print(type(data))
+
+
+1、
+需要在下发更新（如update\insert）命令后，执行conn.commit()
+查询操作不需要执行
+
+2、通过uic.exe，可以把ui文件转换为py文件

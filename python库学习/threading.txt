@@ -1,0 +1,50 @@
+【概念】
+多任务
+同一时间执行多个任务
+
+表现形式：并发、并行
+并发：
+单核cpu处理多任务，交替执行多个任务
+
+并行：（真正意义上的同时执行）
+多核cpu，给cpu每个内核安排一个任务
+
+【进程】
+运行的程序就是进程
+多进程实现多任务编程
+
+【多进程完成多任务】
+创建进程，进程包：multiprocessing
+multiprocessing.Process(target=进程名)
+
+if __name__ == '__main__':
+    showinfo_process = multiprocessing.Process(target=show_info)
+    showinfo1_process = multiprocessing.Process(target=show1_info)
+    showinfo_process.start()
+    showinfo1_process.start()
+
+包含参数的任务，传入args，kwargs
+showinfo_process = multiprocessing.Process(target=show_info，args=(3,))	#元组必须加,
+showinfo_process = multiprocessing.Process(target=show_info，kwargs={"num":3})
+
+【获取进程编号】
+1、获取当前进程编号：
+os.getpid()
+os.getppid()
+
+import threading
+import time
+def show_info():
+    for i in range(5):
+        print("test:",i)
+        time.sleep(0.5)
+def show1_info():
+    for i in range(5):
+        print("test1:",i)
+        time.sleep(0.5)
+if __name__ == '__main__':
+    sub_thread = threading.Thread(target=show_info)
+    sub1_thread = threading.Thread(target=show1_info)
+    sub_thread.start()
+    sub1_thread.start()
+    print("over")

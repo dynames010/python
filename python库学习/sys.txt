@@ -1,0 +1,5 @@
+sys.exit(1)
+sys.exit首先会抛出一个异常SystemExit，0为正常退出，其他输出均为异常退出
+sys.argv[0] 返回的是当前脚本的文件名的完整路径
+如果想要获取当前脚本的文件名
+os.path.splitext(os.path.basename(sys.argv[0]))[0]

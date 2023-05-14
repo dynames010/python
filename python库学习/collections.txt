@@ -1,0 +1,10 @@
+第三方库，对dict list set和tuple有更高效的操作
+from collections import Counter
+
+常用counter方法
+可以传入列表、元组统计单个字符出现的次数
+Counter(list).most_common(3)	列出出现频率前三高的元素，并返回
+Counter(list).subtract('l') 从列表中删除字符，无返回值
+单独获取字符及字符出现次数
+for k,v in Counter(list).items():
+	print(k.v)

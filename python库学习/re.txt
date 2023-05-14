@@ -1,0 +1,13 @@
+正则表达式工具：http://tools.jb51.net/regex/create_reg
+正则表达式 re.compile把表达式编译为正则表达式对象；包括各项flag参数
+re.compile返回的对象作为re.search\re.match的string参数
+re.search（正则表达式，待过滤的log项）从任意位置返回一个对象，查找到第一处后就结束
+re.match （）从字符串最开始与pattern进行匹配，从第一个字符开始匹配，第一个字符不匹配就返回none
+对象.group()或group(0)返回全部匹配结果，group(1)返回单括号中的内容
+re.findall()遍历字符串，返回一个列表
+
+
+[\u4e00-\u9fa5]+匹配一个或多个中文字符
+
+正则表达式常用符号
+https://blog.csdn.net/qq_33976344/article/details/117236742

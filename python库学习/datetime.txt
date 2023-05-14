@@ -1,0 +1,14 @@
+import datetime
+date类 用于操作年、月、日
+datetime.date.today()	#获取今天的日期
+datetime.date.(year=2020,month=8,day=31)	#获取今天的日期
+
+time类 用于操作时、分、秒
+datetime.time(hour=11,minute=18,second=31)
+
+datetime类 是date类和time类的合体，包含两类中的全部参数
+datetime.datetime.today()
+datetime.datetime.now()	打印当前时间点
+
+【字符串转日期】
+(datetime.datetime.strptime("2020/12/29 8:8:00",'%Y/%m/%d %H:%M:%S'))

@@ -1,0 +1,10 @@
+python内置用于命令项选项和参数解析模块
+
+parser = argparse.ArgumentParser(description='demo of argparse')	#创建一个对象
+    parser.add_argument('-tryy',type=str,default=30)		#添加命令行参数
+    parser.add_argument('-codec',type=int,default=40)	
+    args = parser.parse_args()	 #从命令行中解析参数，即获取输入的参数
+    print(args)
+    codec = args.tryy	#单个
+    test = args.codec
+    print('show {} {}'.format(codec,test))

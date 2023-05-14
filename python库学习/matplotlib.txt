@@ -1,0 +1,61 @@
+import matplotlib.pyplot as plt
+https://blog.csdn.net/qq_45542288/article/details/126280303
+【基本应用】
+折线图
+plt.plot(x坐标，y坐标)
+散点图
+plt.scatter(x坐标,y坐标)
+plt.plot(x坐标，y坐标，'o')
+条形图
+plt.bar(x坐标，y坐标）
+plt.barh(x坐标，y坐标）'横向'
+直方图(通过numpy方式绘制)
+plt.hist(待处理ndarray数据，连续坐标数据)
+
+matplotlib库
+plt.savefig要再plt.show之前，否则保存图片为白色
+figsize设置图片大小，分辨率像素点
+plt.figure(figsize=(1920,1080),dpi=150)		#添加figure后每张图都重新画线
+plt.title('码率图')
+
+【绘制水平直线或垂直直线】
+垂直直线
+plt.axvline(2，c='r',ls='--'，ymin=,ymax=) [min和max参数控制线段长度]
+水平直线
+plt.axhline(2，)
+
+【添加网格】
+plt.grid(linestyle='--', alpha=0.5, linewidth=2)
+
+【刻度值设置】
+刻度设置（设置步长和刻度，第一个参数表示设置步长大小，第二个参数表示显示的坐标轴刻度）
+plt.xticks()
+plt.yticks(range(min(y),max(y)+1))    传入最小到最大值
+
+plt.xlabel('time')
+plt.ylabel('Kbps')
+plt.plot(x, bps_result)
+plt.savefig(r'{0}\{1}.png'.format(file_path,video_name))
+
+设置中文字体
+from matplotlib import font_manager    
+my_font = font_manager.FontProperties(fname="C:/WINDOWS/Fonts/STSONG.TTF")
+#定义中文字体属性，文字储存路径可以在C:/WINDOWS/Fonts/找到，这里设置为宋体
+plt.xlabel("时间",fontproperties = my_font,fontsize = 18)
+#在设置x坐标中文标注，令fontproperties = my_font，fontsize令字体为18号
+#plt.title，plt.ylabel，plt.xticks，plt.yticks设置中文标注类似
+
+
+plt.rcParams['font.sans-serif'] = ['SimHei']  # 显示中文
+plt.rcParams['axes.unicode_minus'] = False  # 用来正常显示负号
+
+【色彩属性配置】
+符号r代表颜色 *表示线性，可参考列表
+plt.plot(x坐标，y坐标，'r*')，在plot函数中使用
+
+plt.grid(alpha=0.4)
+
+【绘制子图】
+plt.subplot(211) 参数含义 2两行、一列、第一个图，在subplot之后添加画图动作和命令
+plt.subplots()方法，返回图本体，以及子图对象，可以在子图对象上使用plot等方法
+plt.subplots_adjust(hspace=0.5)返回的ax对象重叠在一起，需要指定方向距离区分

@@ -1,0 +1,2 @@
+word文档本质都是xml文档
+分析可以采用python的xml.dom.minidom

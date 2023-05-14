@@ -1,0 +1,4 @@
+json.dump()：把json转换为字典
+json.dumps(data)：把字典转换为json格式
+json.loads(str)：把str类型数据转换为python的dic结构，str转换为dict
+json.load(data): 从json中读取文件，结果为dic
